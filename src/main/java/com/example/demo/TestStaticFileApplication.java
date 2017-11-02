@@ -17,7 +17,7 @@ public class TestStaticFileApplication {
         SpringApplication app = new SpringApplication(TestStaticFileApplication.class);
         app.addListeners(new MyApplicationListener());
         ConfigurableApplicationContext context = app.run(args);
-        context.publishEvent(new MyApplicationEvent(new Object(), "我发不了事件"));
+        context.publishEvent(new MyApplicationEvent(new Object(), "我发布了事件"));
 
 
     }
