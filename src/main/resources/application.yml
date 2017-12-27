@@ -1,0 +1,158 @@
+logging:
+  levels:
+    org.springframework.boot.env.PropertySourcesLoader: TRACE
+    org.springframework.cloud.config.server: DEBUG
+
+typhon:
+  proxyServer: 8217-zis-microservices-typhon.test.za-tech.net
+  namespace: 1
+    
+zhongan:
+  trace:
+    message:
+      sender:
+        enabled: false
+        ips: 10.139.52.49:9092,10.139.52.57:9092,10.139.52.45:9092
+        topic: tst_za_platform_trace
+
+
+pattern:
+  default-policy:
+      app:
+        limit: 2000
+        refreshInterval: 100
+      origin:
+        limit: 2000
+        refreshInterval: 200
+      url:
+        limit: 5000
+        refreshInterval: 300
+  result:
+    - app
+    - origin
+    - url
+zuul:
+  routes:
+    demo:
+      path: /open/api/demo/get_policy_no/**
+      stripPrefix: false
+      url: http://10.253.101.135:8010
+    idcard:
+      path: /zalabs/ocr/v1/id_card
+      url: http://ocr.test.zhonganonline.com
+    qrcode:
+      path: /zalabs/qrcode/v1
+      url: http://imgrecog.test.zhonganonline.com
+    face_pair_verification:
+      path: /zalabs/biometrics/face/v1/recognition/face_pair_verification
+      url: http://face.test.zhonganonline.com
+    info_verification:
+      path: /zalabs/biometrics/face/v1/user/info_verification
+      url: http://face.test.zhonganonline.com
+    3d_verification:
+      path: /zalabs/biometrics/face/v1/recognition/3d_verification
+      url: http://face.test.zhonganonline.com
+    za-biometrics:
+      path: /za-biometrics/**
+      stripPrefix: false
+      url: http://11505-labs-labs-bio-za-biometrics.test.za-tech.net
+    createAccount:
+      path: /v1/account/create
+      url: http://139.224.146.176
+    contractCreate:
+      path: /v1/contract/create
+      url: http://139.224.146.176
+    contractCall:
+      path: /v1/contract/call
+      url: http://139.224.146.176
+    contractRead:
+      path: /v1/contract/read
+      url: http://139.224.146.176
+    receiptTx:
+      path: /v1/receipt/**
+      stripPrefix: false
+      url: http://139.224.146.176
+    horizon:
+      path: /horizon-test/**
+      stripPrefix: true
+      url: http://11381-tech-other-horizon-asset.test.za-tech.net
+    horizon12:
+      path: /horizon-test-v12/**
+      stripPrefix: true
+      url: http://11443-tech-other-horizon-asset.test.za-tech.net
+    tiSun:
+      path: /tiSun/**
+      stripPrefix: true
+      url: http://11331-zis-other-identity.test.za-tech.net
+    capitax:
+      path: /capitax/**
+      stripPrefix: true
+      url: http://11591-tech-other-s-capitax.test.za-tech.net
+    ticapsuleAdd:
+      path: /ticapsule/api/v0/add
+      url: http://11384-zis-other-ti-capsule-anlinkapiserver.test.za-tech.net
+      stripPrefix: false
+    ticapsuleGet:
+      path: /ticapsule/api/v0/get/**
+      url: http://11384-zis-other-ti-capsule-anlinkapiserver.test.za-tech.net
+      stripPrefix: false
+    receipts:
+      path: /receipts/**
+      url: http://10.253.24.87:9080
+      stripPrefix: false
+    sendSms:
+      path: /sendSms
+      url: http://za-nereus-test.za.net
+      stripPrefix: false
+    ocr:
+      path: /ocr/**
+      url: http://11774-labs-image-za-image-tech-adapter.test.za-tech.net/ocr
+    nereus:
+      path: /nereus/**
+      url: http://za-nereus-test.za.net
+      stripPrefix: false
+  ratelimit:
+    enabled: true
+    behind-proxy: false
+    globalPolicy: # global limit for gateway
+      limit: 100000
+      refresh-interval: 60
+    defaultPolicy:
+      app:
+        limit: 2000
+        refresh-interval: 60
+      origin:
+        limit: 2000
+        refresh-interval: 60
+      url:
+        limit: 5000
+        refresh-interval: 60
+    routePolicies: # limit for each service
+      demo:
+        types:
+          - url
+          - origin
+          - app
+        policies:
+          app:
+            other:
+              limit: 2
+              refresh-interval: 60 #default value (in seconds)
+            a1:
+              limit: 5
+              refresh-interval: 60
+            a2:
+              limit: 1
+              refresh-interval: 60
+          origin:
+            xxhost:
+              limit: 4
+              refresh-interval: 60
+            other:
+              limit: 4
+              refresh-interval: 60
+          url:
+            other:
+              limit: 200
+              refresh-interval: 60
+
