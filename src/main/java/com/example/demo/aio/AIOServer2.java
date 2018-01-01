@@ -10,10 +10,10 @@ import java.nio.channels.CompletionHandler;
 /**
  * Created by PataPon on 2018/1/1.
  */
-public class AIOServer {
+public class AIOServer2 {
 
 
-    public AIOServer(int port) throws IOException {
+    public AIOServer2(int port) throws IOException {
 
 
         AsynchronousServerSocketChannel serverSocketChannel = AsynchronousServerSocketChannel.open();
@@ -56,7 +56,7 @@ public class AIOServer {
 
         int port = 8787;
 
-        AIOServer aioServer = new AIOServer(port);
+        AIOServer2 aioServer = new AIOServer2(port);
 
         System.out.println("服务端监听端口:  " + port);
 
